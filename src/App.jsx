@@ -3,6 +3,8 @@ import Home from './pages/Home'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
+import Recommendations from './pages/Recommendations'
+import FormationDetail from './pages/FormationDetail'
 
 function App() {
   return (
@@ -12,6 +14,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/recommandations" element={<Recommendations />} />
+        <Route path="/formation/:id" element={<FormationDetail />} />
       </Routes>
     </Router>
   )
