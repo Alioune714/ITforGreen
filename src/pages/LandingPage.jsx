@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import Navbar from "../components/navbar";
+import ChatbotBubble from "../components/ChatbotBubble"; // ✅ CORRECTION ICI
+
 
 const LandingPage = () => {
   const formationsUdemy = [
@@ -45,6 +48,8 @@ const LandingPage = () => {
   return (
     <div className="home-wrapper">
       {/* Header */}
+      <Navbar />
+
       <header className="home-header" style={{
         padding: "1.5rem 3rem",
         background: "#f0fdf4",
@@ -150,6 +155,9 @@ const LandingPage = () => {
           ))}
         </Slider>
       </section>
+
+      {/* Chatbot intégré */}
+      <ChatbotBubble /> {/* ✅ Ajout du composant chatbot */}
 
       {/* Footer */}
       <footer className="footer" style={{

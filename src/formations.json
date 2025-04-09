@@ -1,0 +1,24 @@
+[
+    {
+      "id": 1,
+      "nom": "Développement Web",
+      "description": "HTML, CSS, JS, React",
+      "carbone": 50,
+      "tags": ["frontend", "développement", "web"]
+    },
+    {
+      "id": 2,
+      "nom": "Data Science",
+      "description": "Python, Machine Learning",
+      "carbone": 80,
+      "tags": ["data", "python", "IA"]
+    },
+    {
+      "id": 3,
+      "nom": "Green IT",
+      "description": "Informatique durable, écoconception",
+      "carbone": 30,
+      "tags": ["écologie", "green", "durable"]
+    }
+  ]
+  
