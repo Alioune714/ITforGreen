@@ -1,21 +1,50 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Register = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
 
+  const [message, setMessage] = useState("");
+
   const handleChange = (e) => {
-    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Formulaire soumis:", formData);
+
+    if (formData.password !== formData.confirmPassword) {
+      setMessage("Les mots de passe ne correspondent pas.");
+      return;
+    }
+
+    try {
+      const response = await axios.post("http://localhost:8000/api/register", {
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+      });
+
+      const token = response.data.access_token;
+      localStorage.setItem("token", token);
+      setMessage("Inscription réussie ✅");
+
+      // Redirection possible après inscription
+      // window.location.href = "/dashboard";
+
+    } catch (error) {
+      if (error.response && error.response.data) {
+        setMessage(error.response.data.message || "Erreur lors de l'inscription");
+      } else {
+        setMessage("Erreur de connexion à l’API");
+      }
+    }
   };
 
   return (
@@ -31,6 +60,11 @@ const Register = () => {
         <h2 style={{ textAlign: "center", fontSize: "1.8rem", marginBottom: "1rem", color: "#16a34a" }}>
           Crée ton compte 🌱
         </h2>
+        {message && (
+          <p style={{ color: message.includes("réussie") ? "#16a34a" : "#dc2626", textAlign: "center", marginBottom: "1rem" }}>
+            {message}
+          </p>
+        )}
         <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
           <input
             type="text"
