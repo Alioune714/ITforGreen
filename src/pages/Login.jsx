@@ -1,66 +1,69 @@
-import { useState } from "react";
-import Navbar from "../components/navbar";
-const Login = () => {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
+import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Données de connexion :", formData);
-    // Ici, on enverra les infos à l'API Laravel
+    if (email && password) {
+      alert('Connexion réussie !');
+      navigate('/dashboard');
+    } else {
+      alert('Veuillez remplir tous les champs.');
+    }
   };
 
   return (
-    <div>
-    <Navbar /> {/* Ajout de la Navbar */}
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <h2 className="text-3xl font-bold text-center text-gray-900 mb-6">Connexion</h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
+    <div style={{ minHeight: "100vh", backgroundColor: "#f0fdf4", display: "flex", justifyContent: "center", alignItems: "center" }}>
+      <div style={{
+        backgroundColor: "#fff",
+        padding: "2rem",
+        borderRadius: "12px",
+        boxShadow: "0 4px 10px rgba(0,0,0,0.08)",
+        maxWidth: "400px",
+        width: "100%"
+      }}>
+        <h2 style={{ textAlign: "center", fontSize: "1.8rem", marginBottom: "1rem", color: "#16a34a" }}>
+          Se connecter 🔐
+        </h2>
+        <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
           <input
             type="email"
-            name="email"
-            placeholder="Adresse e-mail"
-            value={formData.email}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-md focus:ring focus:ring-blue-300"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
+            style={{ padding: "0.8rem", borderRadius: "8px", border: "1px solid #ccc" }}
           />
           <input
             type="password"
-            name="password"
             placeholder="Mot de passe"
-            value={formData.password}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-md focus:ring focus:ring-blue-300"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             required
+            style={{ padding: "0.8rem", borderRadius: "8px", border: "1px solid #ccc" }}
           />
-          <button
-            type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700"
-          >
+          <button type="submit" style={{
+            background: "#16a34a",
+            color: "#fff",
+            padding: "0.8rem",
+            border: "none",
+            borderRadius: "8px",
+            cursor: "pointer"
+          }}>
             Connexion
           </button>
         </form>
-        <p className="mt-4 text-center">
-          <a href="/forgot-password" className="text-blue-600 hover:underline">
-            Mot de passe oublié ?
-          </a>
-        </p>
-        <p className="mt-4 text-center">
-          Vous n'avez pas de compte ?{" "}
-          <a href="/register" className="text-blue-600 hover:underline">
-            Inscrivez-vous
-          </a>
+        <p style={{ marginTop: "1rem", textAlign: "center" }}>
+          Pas encore inscrit ?{' '}
+          <Link to="/register" style={{ color: "#16a34a", textDecoration: "underline" }}>
+            Créer un compte
+          </Link>
         </p>
       </div>
-    </div>
     </div>
   );
 };
