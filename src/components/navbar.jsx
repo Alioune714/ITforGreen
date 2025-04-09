@@ -1,24 +1,20 @@
+// src/components/Navbar.jsx
+import React from "react";
 import { Link } from "react-router-dom";
 
-const Navbar = () => {
+export default function Navbar() {
   return (
-    <nav className="flex justify-between items-center py-4 px-6 bg-white shadow-md">
-      <div className="text-xl font-bold text-blue-600 flex items-center">
-        📖 EDUFORM
-      </div>
-      <div className="space-x-6">
-        <Link to="/formations" className="text-gray-700 hover:text-blue-600">
-          Formations
-        </Link>
-        <Link to="/about" className="text-gray-700 hover:text-blue-600">
-          À propos
-        </Link>
-        <Link to="/login" className="text-blue-600 font-semibold">
-          Connexion
-        </Link>
-      </div>
+    <nav className="bg-white shadow px-6 py-4 flex justify-between items-center">
+      <div className="text-xl font-bold text-green-700">Edubot</div>
+      <ul className="flex space-x-6 text-sm font-medium text-gray-700">
+        <li><Link to="/" className="hover:text-green-700">Accueil</Link></li>
+        <li><Link to="/about" className="hover:text-green-700">À propos</Link></li>
+        <li><Link to="/recommandations" className="hover:text-green-700">Formations</Link></li>
+        <li><Link to="/login" className="hover:text-green-700">Deconnexion</Link></li>
+        <li><Link to="/about" className="hover:text-green-500">À propos</Link> </li>
+        
+
+      </ul>
     </nav>
   );
-};
-
-export default Navbar;
+}
