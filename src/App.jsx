@@ -5,7 +5,7 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import Recommendations from './pages/Recommendations';
 import FormationDetail from './pages/FormationDetail';
-
+import UserProfile from './pages/UserProfile';
 function App() {
   return (
     <Router>
@@ -16,6 +16,8 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/recommandations" element={<Recommendations />} />
         <Route path="/formation/:id" element={<FormationDetail />} />
+        <Route path="/User/:id" element={<FormationDetail />} />
+        <Route path="/profile" element={<UserProfile />} />
       </Routes>
     </Router>
   );
