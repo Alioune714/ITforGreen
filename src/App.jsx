@@ -11,12 +11,15 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/recommandations" element={<Recommendations />} />
-        <Route path="/formation/:id" element={<FormationDetail />} />
+        {/* Enveloppe toutes les routes avec le Layout */}
+        <Route path="/" element={<Layout />} >
+          <Route index element={<LandingPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/recommandations" element={<Recommendations />} />
+          <Route path="/formation/:id" element={<FormationDetail />} />
+        </Route>
       </Routes>
     </Router>
   );
