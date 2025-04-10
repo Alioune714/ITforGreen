@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Register = () => {
+  const navigate = useNavigate(); // ← Redirection
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -35,8 +36,8 @@ const Register = () => {
       localStorage.setItem("token", token);
       setMessage("Inscription réussie ✅");
 
-      // Redirection possible après inscription
-      // window.location.href = "/dashboard";
+      // Redirection vers la page d’accueil (landing)
+      navigate("/landing");
 
     } catch (error) {
       if (error.response && error.response.data) {

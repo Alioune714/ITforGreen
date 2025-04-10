@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Login = () => {
+  const navigate = useNavigate(); // ← Navigation hook
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -28,8 +29,8 @@ const Login = () => {
       localStorage.setItem("token", token);
       setMessage("Connexion réussie ✅");
 
-      // Redirection possible après connexion
-      // window.location.href = "/dashboard";
+      // 🔁 Redirection après connexion
+      navigate("/landing");
 
     } catch (error) {
       if (error.response && error.response.data) {
