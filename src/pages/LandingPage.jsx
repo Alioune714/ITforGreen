@@ -4,6 +4,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import { Link } from "react-router-dom";
+import Chatbot from "../components/chatbot"; // 👈 Import du chatbot
 
 const courses = [
   {
@@ -37,8 +38,6 @@ export default function Homepage() {
       <div className="bg-green-100 text-center p-3 text-sm font-medium">
         🌱 <span className="font-bold">Edubot agit pour un numérique responsable</span> | Explorez nos formations avec évaluation carbone intégrée.
       </div>
-
-    
 
       {/* Hero section */}
       <section className="relative bg-gradient-to-r from-green-50 via-white to-green-50 py-20 px-8 overflow-hidden">
@@ -173,32 +172,30 @@ export default function Homepage() {
             Voir ce que d'autres apprenants disent d'Edubot
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              {
-                text: "Edubot m’a permis de concilier apprentissage et écologie. Je sais désormais combien chaque module impacte l’environnement.",
-                name: "Lina Bertrand",
-                title: "Étudiante en développement durable",
-                avatar: "/assets/personne1.jpeg",
-              },
-              {
-                text: "Grâce aux recommandations intelligentes, j’ai optimisé mon parcours en choisissant les formations les moins énergivores.",
-                name: "Samuel Leroy",
-                title: "Freelance en IA éthique",
-                avatar: "/assets/personne3.jpeg",
-              },
-              {
-                text: "Une super plateforme qui m’a sensibilisé à l’impact numérique tout en montant en compétences dans le cloud.",
-                name: "Claire Dumont",
-                title: "Consultante Cloud",
-                avatar: "/assets/personne2.jpeg",
-              },
-              {
-                text: "Je recommande vivement Edubot à toutes les personnes qui souhaitent apprendre tout en respectant la planète.",
-                name: "Julien Favre",
-                title: "Professeur d'informatique",
-                avatar: "/assets/personne4.jpeg",
-              },
-            ].map((testimonial, index) => (
+            {[{
+              text: "Edubot m’a permis de concilier apprentissage et écologie. Je sais désormais combien chaque module impacte l’environnement.",
+              name: "Lina Bertrand",
+              title: "Étudiante en développement durable",
+              avatar: "/assets/personne1.jpeg",
+            },
+            {
+              text: "Grâce aux recommandations intelligentes, j’ai optimisé mon parcours en choisissant les formations les moins énergivores.",
+              name: "Samuel Leroy",
+              title: "Freelance en IA éthique",
+              avatar: "/assets/personne3.jpeg",
+            },
+            {
+              text: "Une super plateforme qui m’a sensibilisé à l’impact numérique tout en montant en compétences dans le cloud.",
+              name: "Claire Dumont",
+              title: "Consultante Cloud",
+              avatar: "/assets/personne2.jpeg",
+            },
+            {
+              text: "Je recommande vivement Edubot à toutes les personnes qui souhaitent apprendre tout en respectant la planète.",
+              name: "Julien Favre",
+              title: "Professeur d'informatique",
+              avatar: "/assets/personne4.jpeg",
+            }].map((testimonial, index) => (
               <div key={index} className="bg-white rounded-xl p-6 shadow hover:shadow-lg transition">
                 <p className="text-gray-800 mb-4 italic">“{testimonial.text}”</p>
                 <div className="flex items-center mt-4">
@@ -218,7 +215,8 @@ export default function Homepage() {
         </div>
       </section>
 
-      
+      {/* ✅ Chatbot intégré ici */}
+      <Chatbot />
     </div>
   );
 }
