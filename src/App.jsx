@@ -7,6 +7,9 @@ import Dashboard from './pages/Dashboard';
 import Recommendations from './pages/Recommendations';
 import FormationDetail from './pages/FormationDetail';
 import About from './pages/About'; // Importer la page About
+import LandingPage from './pages/LandingPage';
+import UserProfile from './pages/UserProfile';
+
 
 function App() {
   return (
@@ -20,9 +23,13 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/landing" element={<LandingPage />} />
           <Route path="/recommandations" element={<Recommendations />} />
           <Route path="/formation/:id" element={<FormationDetail />} />
           <Route path="/about" element={<About />} /> {/* Ajout de la route À propos */}
+          <Route path="/profile" element={<UserProfile />} />
+
+          
         </Route>
       </Routes>
     </Router>
