@@ -11,7 +11,7 @@ export default function Navbar() {
         <li><Link to="/about" className="hover:text-green-700">À propos</Link></li>
         <li><Link to="/recommandations" className="hover:text-green-700">Formations</Link></li>
         <li><Link to="/login" className="hover:text-green-700">Deconnexion</Link></li>
-        <li><Link to="/about" className="hover:text-green-500">À propos</Link> </li>
+      
         
 
       </ul>
