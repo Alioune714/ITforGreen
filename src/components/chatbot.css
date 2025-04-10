@@ -65,3 +65,9 @@
     background-color: #ccc;
     cursor: not-allowed;
   }
+  /* Chatbot.css */
+.chat-window {
+    max-height: 350px;
+    overflow-y: auto;
+  }
+  
