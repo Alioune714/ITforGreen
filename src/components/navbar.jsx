@@ -1,6 +1,6 @@
-// src/components/Navbar.jsx
 import React from "react";
 import { Link } from "react-router-dom";
+import { FaUser } from "react-icons/fa";  // Importation de l'icône du profil
 
 export default function Navbar() {
   return (
@@ -11,9 +11,12 @@ export default function Navbar() {
         <li><Link to="/about" className="hover:text-green-700">À propos</Link></li>
         <li><Link to="/recommandations" className="hover:text-green-700">Formations</Link></li>
         <li><Link to="/login" className="hover:text-green-700">Deconnexion</Link></li>
-      
-        
-
+        {/* Icône de profil avec lien vers la page UserProfile */}
+        <li>
+          <Link to="/user-profile" className="hover:text-green-700">
+            <FaUser className="text-lg" />
+          </Link>
+        </li>
       </ul>
     </nav>
   );
