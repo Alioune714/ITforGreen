@@ -6,6 +6,7 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import Recommendations from './pages/Recommendations';
 import FormationDetail from './pages/FormationDetail';
+import About from './pages/About'; // Importer la page About
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/recommandations" element={<Recommendations />} />
           <Route path="/formation/:id" element={<FormationDetail />} />
+          <Route path="/about" element={<About />} /> {/* Ajout de la route À propos */}
         </Route>
       </Routes>
     </Router>
