@@ -3,22 +3,31 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Login = () => {
-  const navigate = useNavigate(); // ← Navigation hook
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  const isEmailValid = (email) => /\S+@\S+\.\S+/.test(email);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
 
+    if (!isEmailValid(formData.email)) {
+      setMessage("Adresse email invalide.");
+      return;
+    }
+
+    setLoading(true);
     try {
       const response = await axios.post("http://localhost:8000/api/login", {
         email: formData.email,
@@ -26,10 +35,9 @@ const Login = () => {
       });
 
       const token = response.data.access_token;
-      localStorage.setItem("token", token);
+      localStorage.setItem("auth_token", token);
       setMessage("Connexion réussie ✅");
 
-      // 🔁 Redirection après connexion
       navigate("/landing");
 
     } catch (error) {
@@ -38,6 +46,8 @@ const Login = () => {
       } else {
         setMessage("Erreur de connexion à l’API.");
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -78,15 +88,15 @@ const Login = () => {
             required
             style={{ padding: "0.8rem", borderRadius: "8px", border: "1px solid #ccc" }}
           />
-          <button type="submit" style={{
-            background: "#16a34a",
+          <button type="submit" disabled={loading} style={{
+            background: loading ? "#9ca3af" : "#16a34a",
             color: "#fff",
             padding: "0.8rem",
             border: "none",
             borderRadius: "8px",
-            cursor: "pointer"
+            cursor: loading ? "not-allowed" : "pointer"
           }}>
-            Se connecter
+            {loading ? "Connexion..." : "Se connecter"}
           </button>
         </form>
         <p style={{ marginTop: "1rem", textAlign: "center" }}>

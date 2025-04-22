@@ -9,6 +9,7 @@ import FormationDetail from './pages/FormationDetail';
 import About from './pages/About'; // Importer la page About
 import LandingPage from './pages/LandingPage';
 import UserProfile from './pages/UserProfile';
+import PrivateRoute from './components/PrivateRoute';
 
 
 function App() {
@@ -28,7 +29,8 @@ function App() {
           <Route path="/formation/:id" element={<FormationDetail />} />
           <Route path="/about" element={<About />} /> {/* Ajout de la route À propos */}
           <Route path="/profile" element={<UserProfile />} />
-
+          <Route path="/profile" element={<PrivateRoute><UserProfile /></PrivateRoute>} />
+  
           
         </Route>
       </Routes>
