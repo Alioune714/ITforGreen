@@ -6,15 +6,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
+use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
 {
-    /**
-     * Connexion utilisateur
-     */
     public function login(Request $request)
     {
-        // Validation des champs
         $validator = Validator::make($request->all(), [
             'email'    => 'required|email',
             'password' => 'required|string|min:6',
@@ -24,18 +21,14 @@ class AuthController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        // Recherche de l'utilisateur
         $user = User::where('email', $request->email)->first();
 
-        // Vérification du mot de passe
         if (! $user || ! Hash::check($request->password, $user->password)) {
             return response()->json(['message' => 'Email ou mot de passe incorrect'], 401);
         }
 
-        // Création du token avec Sanctum
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        // Réponse
         return response()->json([
             'message' => 'Connexion réussie',
             'access_token' => $token,
@@ -43,32 +36,38 @@ class AuthController extends Controller
             'user' => $user,
         ]);
     }
+
     public function register(Request $request)
-{
-    // Valider les données
-    $validated = $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|email|unique:users,email',
-        'password' => 'required|string|min:6',
-    ]);
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|unique:users',
+            'password' => [
+                'required',
+                'confirmed',
+                Password::min(12)
+                    ->mixedCase()
+                    ->letters()
+                    ->numbers()
+                    ->symbols(),
+            ],
+        ]);
 
-    // Créer l'utilisateur
-    $user = User::create([
-        'name' => $validated['name'],
-        'email' => $validated['email'],
-        'password' => bcrypt($validated['password']),
-    ]);
+        $user = User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => bcrypt($validated['password']),
+        ]);
 
-    // Créer un token
-    $token = $user->createToken('auth_token')->plainTextToken;
+        // ❌ Pas d'envoi d'email de vérification
+        // event(new Registered($user));
 
-    // Retourner les données
-    return response()->json([
-        'message' => 'Inscription réussie',
-        'access_token' => $token,
-        'token_type' => 'Bearer',
-        'user' => $user
-    ]);
-}
+        return response()->json(['message' => 'Utilisateur enregistré avec succès.']);
+    }
 
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+        return response()->json(['message' => 'Déconnexion réussie']);
+    }
 }
