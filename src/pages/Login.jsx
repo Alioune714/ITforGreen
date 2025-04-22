@@ -3,12 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Login = () => {
-  const navigate = useNavigate(); // ← Navigation hook
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const [message, setMessage] = useState("");
 
   const handleChange = (e) => {
@@ -20,21 +16,28 @@ const Login = () => {
     setMessage("");
 
     try {
-      const response = await axios.post("http://localhost:8000/api/login", {
-        email: formData.email,
-        password: formData.password,
+      await axios.get("http://localhost:8000/sanctum/csrf-cookie", {
+        withCredentials: true,
       });
 
-      const token = response.data.access_token;
-      localStorage.setItem("token", token);
+      const response = await axios.post(
+        "http://localhost:8000/api/login",
+        formData,
+        {
+          withCredentials: true,
+        }
+      );
+
+      const { access_token, user } = response.data;
+
+      localStorage.setItem("token", access_token);
+      localStorage.setItem("user", JSON.stringify(user));
+
       setMessage("Connexion réussie ✅");
-
-      // 🔁 Redirection après connexion
       navigate("/landing");
-
     } catch (error) {
       if (error.response && error.response.data) {
-        setMessage(error.response.data.message || "Email ou mot de passe incorrect.");
+        setMessage(error.response.data.message || "Identifiants incorrects.");
       } else {
         setMessage("Erreur de connexion à l’API.");
       }
@@ -55,7 +58,11 @@ const Login = () => {
           Connexion 🌱
         </h2>
         {message && (
-          <p style={{ color: message.includes("réussie") ? "#16a34a" : "#dc2626", textAlign: "center", marginBottom: "1rem" }}>
+          <p style={{
+            color: message.includes("✅") ? "#16a34a" : "#dc2626",
+            textAlign: "center",
+            marginBottom: "1rem"
+          }}>
             {message}
           </p>
         )}

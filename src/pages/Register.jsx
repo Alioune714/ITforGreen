@@ -3,7 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Register = () => {
-  const navigate = useNavigate(); // ← Redirection
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -17,11 +18,36 @@ const Register = () => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  const validatePassword = (password) => {
+    const regex = {
+      length: /.{12,}/,
+      lowercase: /[a-z]/,
+      uppercase: /[A-Z]/,
+      digit: /[0-9]/,
+      special: /[@$!%*#?&]/,
+    };
+
+    return (
+      regex.length.test(password) &&
+      regex.lowercase.test(password) &&
+      regex.uppercase.test(password) &&
+      regex.digit.test(password) &&
+      regex.special.test(password)
+    );
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (formData.password !== formData.confirmPassword) {
-      setMessage("Les mots de passe ne correspondent pas.");
+      setMessage("❌ Les mots de passe ne correspondent pas.");
+      return;
+    }
+
+    if (!validatePassword(formData.password)) {
+      setMessage(
+        "❌ Le mot de passe doit contenir au moins 12 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial."
+      );
       return;
     }
 
@@ -30,20 +56,18 @@ const Register = () => {
         name: formData.name,
         email: formData.email,
         password: formData.password,
+        password_confirmation: formData.confirmPassword,
       });
 
       const token = response.data.access_token;
       localStorage.setItem("token", token);
-      setMessage("Inscription réussie ✅");
-
-      // Redirection vers la page d’accueil (landing)
-      navigate("/landing");
-
+      setMessage("✅ Inscription réussie ! Vérifie ton e-mail.");
+      navigate("/landing"); // Vers la page d'attente de validation
     } catch (error) {
       if (error.response && error.response.data) {
-        setMessage(error.response.data.message || "Erreur lors de l'inscription");
+        setMessage(error.response.data.message || "Erreur lors de l'inscription.");
       } else {
-        setMessage("Erreur de connexion à l’API");
+        setMessage("Erreur de connexion à l’API.");
       }
     }
   };
@@ -61,11 +85,17 @@ const Register = () => {
         <h2 style={{ textAlign: "center", fontSize: "1.8rem", marginBottom: "1rem", color: "#16a34a" }}>
           Crée ton compte 🌱
         </h2>
+
         {message && (
-          <p style={{ color: message.includes("réussie") ? "#16a34a" : "#dc2626", textAlign: "center", marginBottom: "1rem" }}>
+          <p style={{
+            color: message.includes("✅") ? "#16a34a" : "#dc2626",
+            textAlign: "center",
+            marginBottom: "1rem"
+          }}>
             {message}
           </p>
         )}
+
         <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
           <input
             type="text"
@@ -115,6 +145,7 @@ const Register = () => {
             S'inscrire
           </button>
         </form>
+
         <p style={{ marginTop: "1rem", textAlign: "center" }}>
           Déjà inscrit ?{" "}
           <Link to="/login" style={{ color: "#16a34a", textDecoration: "underline" }}>
