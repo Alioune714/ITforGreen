@@ -3,8 +3,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
-import { Link } from "react-router-dom";
-import Chatbot from "../components/chatbot"; // 👈 Import du chatbot
+import ChatbotBubble from './ChatbotBubble'; 
+import { Link, useNavigate } from 'react-router-dom'; // ✅ Ajoute useNavigate ici
 
 const courses = [
   {
@@ -32,6 +32,8 @@ const courses = [
 ];
 
 export default function Homepage() {
+  const navigate = useNavigate(); // ✅ Initialise le hook ici
+
   return (
     <div className="font-sans">
       {/* Bandeau promo */}
@@ -215,8 +217,24 @@ export default function Homepage() {
         </div>
       </section>
 
-      {/* ✅ Chatbot intégré ici */}
-      <Chatbot />
+      <button
+  onClick={() => navigate('/chatbot')}
+  className="floating-chatbot-btn flex items-center gap-2 px-6 py-3 rounded-full text-lg"
+  style={{
+    position: "fixed",
+    bottom: "20px",
+    right: "20px",
+    backgroundColor: "#22c55e",
+    color: "white",
+    boxShadow: "0 4px 16px rgba(0,0,0,0.2)",
+    zIndex: 9999,
+    transition: "all 0.3s"
+  }}
+>
+  🤖 <span className="hidden sm:inline">Discuter avec Edubot</span>
+</button>
+
+
     </div>
   );
 }
